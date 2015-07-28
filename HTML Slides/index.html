@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Regular Expressions (Regex): Part I</title>
+
+    <meta name="description" content="An interactive workshop on Regular Expressions with exercises">
+    <meta name="author" content="Arjun Bharadwaj">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Regular Expressions</h1>
+          <h3>Part 1</h3>
+          <p>
+            <small>By Arjun, Pragmatic Programming Chair</small>
+          </p>
+        </section>
+
+        <section>
+          <h4><em>Goals of Prag. this year</em></h4>
+        </section>
+
+        <section>
+          <h2>What is Regex?</h2>
+          <pre><code data-trim>
+    private static final String EMAIL_PATTERN = 
+    "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    ...
+    pattern = Pattern.compile(EMAIL_PATTERN);
+    ...
+    matcher = pattern.matcher(email);
+    ...
+    // Check if the regex was matched
+    if matcher.matches()
+    ...
+          </code></pre>
+        </section>
+
+        <!-- Example of nested vertical slides -->
+        <section>
+          <h2>Choice of Language:</h2>
+          <img src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png"/>
+        </section>
+
+        <section>
+          <h2>Example: Finding whether a string is a phone number</h2>
+          <pre><code data-trim>
+    def isPhoneNumber(phoneNum):
+    # If the length of the phonenumber is not 12, then invalidate
+    if len(phoneNum) != 12:
+        return False
+
+    # Check if the area code is comprised of numbers / numeric
+    for i in range(0, 3):
+        if not phoneNum[i].isdecimal():
+            return False
+
+    # Check if next character is hyphen / '-'
+    if phoneNum[3] != '-':
+        return False
+
+    # Repeat the process
+    for i in range(4, 7):
+        if not phoneNum[i].isdecimal():
+            return False
+
+    if phoneNum[7] != '-':
+        return False
+    
+    for i in range(8, 12):
+        if not phoneNum[i].isdecimal():
+            return False
+    
+    return True 
+          </code></pre>
+          
+        </section>
+
+        <section>
+          <h2>Example: Finding whether a string is a phone number(Cntd..)</h2>
+          <pre><code data-trim>
+print('123-456-7890 is a phone number:')
+print(isPhoneNumber('123-456-7890'))
+print('Random Phonenumber is a phone number:')
+print(isPhoneNumber('Random Phonenumber'))
+
+# OUTPUT:
+123-456-7890 is a phone number:
+True
+Random Phonenumber is a phone number:
+False
+          </code></pre>
+          
+        </section>
+
+        <section>
+          <h3>But what if??</h3>
+          <h4>The numbers are of form: </h4>
+          <h2>123.456.7890 or (123)456-7890??</h2>
+        </section>
+
+        <section>
+          <h2>Easier way: Use Regex</h2>
+          <h4>A simple pattern below can solve the base case:</h4>
+          <pre><code>       \d\d\d-\d\d\d\d-\d\d\d OR IN SHORT \d{3}-\d{4}-\d{3}        </code></pre>
+        </section>
+
+        <!-- <section data-markdown>
+          <script type="text/template">
+            ## Markdown support
+
+            Write content using inline or external Markdown.
+            Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+
+            ```
+            <section data-markdown>
+              ## Markdown support
+
+              Write content using inline or external Markdown.
+              Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+            </section>
+            ```
+          </script>
+        </section> -->
+
+        <section>
+          <section id="fragments">
+            <h2>4 Steps</h2>
+            <ol>
+              <li class="fragment">Importing the library</li>
+              <li class="fragment">Use the <code>compile()</code> function to compile the pattern</li>
+              <li class="fragment">Using the <code>search()</code> function on your given text</li>
+              <li class="fragment">Grouping to retrieve the results</li>
+            </ol>
+          </section>
+          <section>
+            <h2>Let's do this in action!!</h2>
+          </section>
+        </section>
+
+        <section>
+          <h3>In action</h3>
+         <pre><code>
+#import library
+import re
+
+# Use the compile() function to declare your pattern
+phoneNumRegex = re.compile(r'\d\d\d-\d\d\d\d-\d\d\d')
+
+# Using search() to find the string pattern that matches
+mo = phoneNumRegex.search('There are tons of numbers. One of them is 123-456-7890. That is one of the simplest among them all')
+
+# Use group() to collect the results
+print('The phone number in the given text is: ' + mo.group())
+
+# OUTPUT:
+# The phone number in the given text is: 123-456-7890
+          </code></pre>
+        </section>
+
+        <section>
+          <section>
+          <h2>Pipe Symbol |</h2>
+          <p> Used for either-or </p>
+          <pre><code>
+import re
+csRegex = re.compile(r'CS|Computer Science|Comp Sci')
+mo1 = csRegex.search('Hello!! Welcome to the Computer Science club at UC Davis.')
+print(mo1.group())
+mo1 = csRegex.search('It is also known as the CS club. I look forward for this exciting year!!')
+print(mo1.group())
+
+# OUTPUT
+# Computer Science
+# CS
+          </code></pre>
+        </section>
+        <section>
+          <h2>Which vehicle is Batman using today???</h2>
+          <pre><code>
+import re
+batRegex = re.compile(r'Bat(mobile|copter|vehicle|marine)')
+mo1 = batRegex.search('Today, the great superhero of Gotham is going to use the Batcopter to capture the Joker.')
+print(mo1.group())
+
+# OUTPUT
+# Batcopter
+
+        </code></pre>
+        </section>
+        </section>
+
+        <section>
+          <h2>SUPERSTAR (*)</h2>
+          <pre><code>
+import re
+woRegex = re.compile(r'Super(wo)*man')
+mo1 = woRegex.search('The citizens of Metropolis were dazzled at the appearance of Superwoman instead of the main hero.')
+print(mo1.group())
+mo1 = woRegex.search('Turns out that Superman was busy saving another planet that day.')
+print(mo1.group())
+
+# OUTPUT
+# Superwoman
+# Superman
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Positivity is a huge plus(+)</h2>
+          <h6>Try to laugh one or more times during the day</h6>
+          <pre><code>
+import re
+haRegex = re.compile(r'(ha)+')
+mo1 = haRegex.search('One of my friends shared an amazing joke and I said hahaha')
+print(mo1.group())
+mo1 = haRegex.search('Another friend of mine heard the same joke and said haha')
+print(mo1.group())
+
+# OUTPUT:
+# hahaha
+# haha
+          </code></pre>
+        </section>
+
+        <section>
+          <section>
+          <h2>Rambling{...}</h2>
+          <h6>We always have dat one friend who keeps rambling</h6>
+          <pre><code>
+import re
+blaRegex = re.compile(r'(Bla){3}')
+mo1 = blaRegex.search('I thought my friend was annoying cuz he kept on rambling BlaBlaBla')
+print(mo1.group())
+
+# OUTPUT:
+# BlaBlaBla
+          </code></pre>
+
+          </section>
+
+          <section>
+            <h2>The Rambling continues...</h2>
+            <h6>Just when I thought it couldn't get any worse...</h6>
+            <pre><code>
+import re
+haRegex = re.compile(r'(Bla){3,5}')
+mo1 = haRegex.search('I thought my friend was annoying cuz he kept on rambling BlaBlaBla')
+print(mo1.group())
+mo1 = haRegex.search('Until, I met this one other person who rambled for DAYZZ BlaBlaBlaBlaBla')
+print(mo1.group())
+
+# OUTPUT:
+# BlaBlaBla
+# BlaBlaBlaBlaBla
+            </code></pre>
+
+          </section>
+
+        </section>
+
+      <section>
+         <section>
+          <h2>Character Classes</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Significance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>\d</td>
+                <td>Any numeric digit from 0 to 9.</td>
+              </tr>
+              <tr>
+                <td>\D</td>
+                <td>Any character that is not a numeric digit from 0 to 9.</td>
+              </tr>
+              <tr>
+                <td>\w</td>
+                <td>Any letter, numeric digit, or the underscore character. ("word" characters)</td>
+              </tr>
+              <tr>
+                <td>\W</td>
+                <td>Any character that is not a letter, numeric digit, or the underscore character.</td>
+              </tr>
+              <tr>
+                <td>\s</td>
+                <td>Any space, tab, or newline character. ("space" characters)</td>
+              </tr>
+              <tr>
+                <td>\S</td>
+                <td>Any character that is not a space, tab, or newline ("space" characters)</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+          <section>
+            <h2>Example...</h2>
+            <h6>One CS Club to Rule em' all...</h6>
+            <pre><code>
+import re
+csClubRegex = re.compile(r'\d+\s\w+')
+moList = csClubRegex.findall('11 amazing officers, 1 club, 10 goals, 100 people')
+print(moList)
+
+# OUTPUT:
+# ['11 amazing', '1 club', '10 goals', '100 people']
+            </code></pre>
+          </section>
+        </section>
+
+        <section>
+          <h2>Always remember that you have the power to create</h2>
+          <pre><code>
+import re
+csClubRegex = re.compile(r'\b[ap]\w+\b')
+moList = csClubRegex.findall('11 amazing officers, 1 club, 10 goals, 100 people')
+print(moList)
+
+# OUTPUT:
+# ['amazing', 'people']
+            </code></pre>
+        </section>
+
+        <section>
+          <h2>There is no animal more wild than a cat</h2>
+          <pre><code>
+import re
+wildRegex = re.compile(r'\b.at\b')
+moList = wildRegex.findall('The cat in the hat sat on the flat mat and deserved a pat')
+print(moList)
+
+# OUTPUT:
+# ['cat', 'hat', 'sat', 'mat', 'pat']
+            </code></pre>
+        </section>
+
+        <section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+          <h2>Assessment (Self-Test) Questions</h2>
+          <ol>
+            <li>What function creates <code>Regex</code> Objects??</li>
+            <li>Why are raw strings used when dealing with <code>Regex</code> Objects?</li>
+            <li>What does <code>search()</code> return?</li>
+            <li>How do you get the actual strings that match the pattern from a <code>Match</code> object?</li>
+            <li>What does | signify in regexs?</li>
+          </ol>
+        </section>
+
+        <section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+          <h2>Qtns continued...</h2>
+          <ol start="6">
+            <li>What is the difference between the + and * characters in regular expressions?</li>
+            <li>What is the difference between {3} and {3,5} in regular expressions?</li>
+            <li>What do <code>\d,\w,\s</code> represent in regex??</li>
+            <li>What does the . character normally match?</li>
+            <li>Symbols such as {}.*? have special meaning in the world of Regexes. What would you do if you want to capture those symbol literals?</li>
+          </ol>
+        </section>
+
+        <section data-transition="slide" data-background="#8195FA" data-background-transition="zoom">
+          <h1>Now, let's get our hands dirty!</h1>
+        </section>
+
+        <section style="text-align: left;">
+          <h1>Thanks for coming!!</h1>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
