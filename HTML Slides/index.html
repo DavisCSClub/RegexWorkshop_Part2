@@ -225,6 +225,7 @@ print(mo1.group())
 
         <section>
           <h2>SUPERSTAR (*)</h2>
+          <h6>Zero or More Times</h6>
           <pre><code>
 import re
 woRegex = re.compile(r'Super(wo)*man')
@@ -260,6 +261,7 @@ print(mo1.group())
           <section>
           <h2>Rambling{...}</h2>
           <h6>We always have dat one friend who keeps rambling</h6>
+          <h6>Repeating words again and again</h6>
           <pre><code>
 import re
 blaRegex = re.compile(r'(Bla){3}')
@@ -280,12 +282,26 @@ import re
 haRegex = re.compile(r'(Bla){3,5}')
 mo1 = haRegex.search('I thought my friend was annoying cuz he kept on rambling BlaBlaBla')
 print(mo1.group())
-mo1 = haRegex.search('Until, I met this one other person who rambled for DAYZZ BlaBlaBlaBlaBla')
+mo1 = haRegex.search('Until, I met this one other person who rambled FODAYZZ BlaBlaBlaBlaBla')
 print(mo1.group())
 
 # OUTPUT:
 # BlaBlaBla
 # BlaBlaBlaBlaBla
+            </code></pre>
+
+          </section>
+
+          <section>
+            <h2>Atleast say something...</h2>
+            <pre><code>
+import re
+haRegex = re.compile(r'(Bla){3,}')
+mo1 = haRegex.search('On the other hand, I do not talk much. So I decided to say BlaBlaBlaBla')
+print(mo1.group())
+
+# OUTPUT:
+# BlaBlaBlaBla
             </code></pre>
 
           </section>
@@ -361,6 +377,7 @@ print(moList)
 
         <section>
           <h2>There is no animal more wild than a cat</h2>
+          <h6>The Amazing Wildcard Character (.)</h6>
           <pre><code>
 import re
 wildRegex = re.compile(r'\b.at\b')
