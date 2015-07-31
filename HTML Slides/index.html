@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Regular Expressions (Regex): Part I</title>
+    <title>Regular Expressions (Regex): Part II</title>
 
-    <meta name="description" content="An interactive workshop on Regular Expressions with exercises">
+    <meta name="description" content="An interactive workshop on Regular Expressions with exercises - Part 2">
     <meta name="author" content="Arjun Bharadwaj">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -20,54 +20,213 @@
     <!-- Code syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
 
-    <!-- Printing and PDF exports -->
-    <script>
-      var link = document.createElement( 'link' );
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-      document.getElementsByTagName( 'head' )[0].appendChild( link );
-    </script>
-
     <!--[if lt IE 9]>
     <script src="lib/js/html5shiv.js"></script>
     <![endif]-->
   </head>
 
   <body>
-
     <div class="reveal">
 
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
         <section>
           <h1>Regular Expressions</h1>
-          <h3>Part 1</h3>
+          <h3>Part 2</h3>
           <p>
             <small>By Arjun, Pragmatic Programming Chair</small>
           </p>
         </section>
 
         <section>
-          <h4><em>Goals of Prag. this year</em></h4>
+          <h1><em>Opinions and Feedback</em></h1>
         </section>
 
         <section>
-          <h2>What is Regex?</h2>
+          <h2><em>Last time...</em></h2>
+          <section id="fragments">
+            <ul>
+              <li class="fragment">Introduction and Motivation</li>
+              <li class="fragment">Exploring the Regex Symbols(|, *, +, {}, .)</li>
+              <li class="fragment">Character Classes</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <h3><em>What about (now|today|this workshop)???</em></h3>
+          <section id="fragments">
+            <ul>
+              <li class="fragment">Grouping</li>
+              <li class="fragment">Flags</li>
+              <li class="fragment">Substitution and Splitting</li>
+              <li class="fragment">Exploring helpful functions from <code>re</code> module</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <h2>Revisiting Phone Number Regex</h2>
           <pre><code data-trim>
-    private static final String EMAIL_PATTERN = 
-    "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    ...
-    pattern = Pattern.compile(EMAIL_PATTERN);
-    ...
-    matcher = pattern.matcher(email);
-    ...
-    // Check if the regex was matched
-    if matcher.matches()
-    ...
+#import library
+import re
+
+# Use the compile() function to declare your pattern
+phoneNumRegex = re.compile(r'\d\d\d-\d\d\d-\d\d\d\d')
+
+# Using search() to find the string pattern that matches
+mo = phoneNumRegex.search('There are tons of numbers. One of them is 123-456-7890. That is one of the simplest among them all')
+
+# Use group() to collect the results
+print('The phone number in the given text is: ' + mo.group())
+
+# OUTPUT:
+# The phone number in the given text is: 123-456-7890
           </code></pre>
         </section>
+
+        <section>
+          <h2>In comes the parenthesis () symbol</h2>
+          <pre><code data-trim>
+#import library
+import re
+
+# Use the compile() function to declare your pattern
+phoneNumRegex = re.compile(r'(\d\d\d)-(\d\d\d\d-\d\d\d)')
+
+# Using search() to find the string pattern that matches
+mo = phoneNumRegex.search('There are tons of numbers. One of them is 123-4567-890. That is one of the simplest among them all')
+
+# Use group() to collect the results
+print('The phone number in the given text is: ' + mo.group())
+print('Another way of getting full text is: ' + mo.group(0))
+print('Area code is: ' + mo.group(1))
+print('Rest of the phone code is: ' + mo.group(2))
+
+# OUTPUT:
+# The phone number in the given text is: 123-4567-890
+# Another way of getting full text is: 123-4567-890
+# Area code is: 123
+# Rest of the phone code is: 4567-890
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>That's cool and all, but what type is it??</h3>
+          <pre><code data-trim>
+#import library
+import re
+
+# Use the compile() function to declare your pattern
+phoneNumRegex = re.compile(r'(\d\d\d)-(\d\d\d-\d\d\d\d)')
+
+# Using search() to find the string pattern that matches
+mo = phoneNumRegex.search('There are tons of numbers. One of them is 123-4567-890. That is one of the simplest among them all')
+
+# Use group() to collect the results
+print('All groups: ' + str(mo.groups()))
+
+# OUTPUT:
+# All groups: ('123', '456-7890')
+
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Move forward whether your group is present or not</h3>
+          <pre><code data-trim>
+#import library
+import re
+
+# Use the compile() function to declare your pattern
+conditionRegex = re.compile(r'(pre)?condition')
+
+# Using search() to find the string pattern that matches
+mo = conditionRegex.search('To succeed in life, you gotta precondition your mind to think more positively')
+
+# Use group() to collect the results
+print(mo.group())
+mo = conditionRegex.search('But most often, we are inhibited by our current conditions.')
+print(mo.group())
+
+# OUTPUT:
+# precondition
+# condition
+          </code></pre>
+        </section>
+
+        <section>
+          <h4>Gotta keep searching for the good in everyone</h4>
+          <pre><code data-trim>
+#import library
+import re
+
+# Use the compile() function to declare your pattern
+goodRegex = re.compile(r'((ver)\w+)')
+
+# Using findall() to find the string pattern that matches
+mo = goodRegex.findall('He was the most veracious person I had ever met. Therefore, I strongly believed him when he averred that he was innocent of the allegations.')
+
+# Use group() to collect the results
+print(mo)
+
+# OUTPUT:
+# [('veracious', 'ver'), ('verred', 'ver')]
+          </code></pre>
+          <p>Note:-Notice the return type for <code>findall()</code></p>
+        </section>
+
+        <section>
+          <h4>Gotta catch them all!! (.*)</h4>
+          <pre><code data-trim>
+#import library
+import re
+
+# Use the compile() function to declare your pattern
+pokeRegex = re.compile(r'Fire Type: (.*) Water Type: (.*) Grass Type: (.*) Dragon Type: (.*)')
+
+# Using search() to find the string pattern that matches
+mo = pokeRegex.search('There are many pokemons out there. My favorite ones are Fire Type: Typhlosion Water Type: Suicune Grass Type: Treecko Dragon Type: Latios')
+
+# Use group() to collect the results
+print(mo.group(1))
+print(mo.group(2))
+print(mo.group(3))
+print(mo.group(4))
+
+# OUTPUT:
+# Typhlosion
+# Suicune
+# Treecko
+# Latios
+         </code></pre>
+        </section>
+
+        <section>
+          <h4>Don't get too greedy (?)</h4>
+          <pre><code data-trim>
+#import library
+import re
+
+# Use the compile() function to declare your pattern
+frodoRegex = re.compile(r'<.*>')
+
+# Using search() to find the string pattern that matches
+mo = frodoRegex.search('After entering the cave of the dragon, Frodo <picked up the ring> along with other jewels and pearls.>')
+
+# Use group() to collect the results
+print(mo.group())
+frodoRegex = re.compile(r'<.*?>')
+# Using search() to find the string pattern that matches
+mo = frodoRegex.search('After entering the cave of the dragon, Frodo <picked up the ring> along with other jewels and pearls.>')
+print(mo.group())
+
+# OUTPUT
+# <picked up the ring> along with other jewels and pearls.>
+# <picked up the ring>
+         </code></pre>
+        </section>
+
 
         <!-- Example of nested vertical slides -->
         <section>
@@ -138,25 +297,7 @@ False
           <pre><code>       \d\d\d-\d\d\d\d-\d\d\d OR IN SHORT \d{3}-\d{4}-\d{3}        </code></pre>
         </section>
 
-        <!-- <section data-markdown>
-          <script type="text/template">
-            ## Markdown support
-
-            Write content using inline or external Markdown.
-            Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-
-            ```
-            <section data-markdown>
-              ## Markdown support
-
-              Write content using inline or external Markdown.
-              Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-            </section>
-            ```
-          </script>
-        </section> -->
-
-        <section>
+         <section>
           <section id="fragments">
             <h2>4 Steps</h2>
             <ol>
