@@ -6,6 +6,6 @@ About the files
 - exercise.py - The main exercise file that people will be working with
 - taletwocities.txt - The text file which contains the first four chapters of the Novel, Tale of Two Cities by Charles Dickens.
 
-The solutions for the exercise file will be discussed during the presentation. If you want the solution file, please contact me.
+The solutions for the exercise file will be discussed during the presentation. If you are not able to make it to the presentation and/or want the solution file, please contact me.
 
 Last Modified on 30th July, 2015 by Arjun B.
