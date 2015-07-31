@@ -1,4 +1,4 @@
-# Regex Workshop: Part II
+# Regex Workshop: Part II (Still In Progress)
 This is the second workshop of a two-part series for the pragmatic programming committee.
 This workshop covers additional material such as grouping, flags, splitting/substituting text, and using other functions from the re module.
 
