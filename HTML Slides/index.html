@@ -330,7 +330,7 @@ print(officerRegex.sub(r'\1****', 'Officer Bob gave a secret message to Officer 
 
         <section>
           <h2>Splitting</h2>
-          <h4>Use a delimeter to seperate</h4>
+          <h4>Use a delimeter to seperate strings</h4>
           <pre><code data-trim>
 #import library
 import re
@@ -371,7 +371,7 @@ print(re.split(r'\d+', 'This12Is34A45Random67Text11Between90Numbers'))
           <h2>Qtns continued...</h2>
           <ol start="6">
             <li>What does passing <code>re.VERBOSE</code> as the second argument to <code>re.compile()</code> allow you to do?</li>
-            <li>What method allows to find the positions where the regex found the pattern within text?</li>
+            <li>What method allows to find the positions of the matched text?</li>
             <li>If <code>numRegex = re.compile(r'\d+')</code>, what will <code>numRegex.sub('X', '12 drummers, 11 pipers, five rings, 3 hens')</code> return?</li>
           </ol>
         </section>
