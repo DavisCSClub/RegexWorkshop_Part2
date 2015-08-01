@@ -209,346 +209,170 @@ print(mo.group(4))
 import re
 
 # Use the compile() function to declare your pattern
-frodoRegex = re.compile(r'<.*>')
+frodoRegex = re.compile(r':.*:')
 
 # Using search() to find the string pattern that matches
-mo = frodoRegex.search('After entering the cave of the dragon, Frodo <picked up the ring> along with other jewels and pearls.>')
+mo = frodoRegex.search('After entering the cave of the dragon, Frodo :picked up the ring: along with other jewels and pearls.:')
 
 # Use group() to collect the results
 print(mo.group())
-frodoRegex = re.compile(r'<.*?>')
+frodoRegex = re.compile(r':.*?:')
 # Using search() to find the string pattern that matches
-mo = frodoRegex.search('After entering the cave of the dragon, Frodo <picked up the ring> along with other jewels and pearls.>')
+mo = frodoRegex.search('After entering the cave of the dragon, Frodo :picked up the ring: along with other jewels and pearls.:')
 print(mo.group())
 
 # OUTPUT
-# <picked up the ring> along with other jewels and pearls.>
-# <picked up the ring>
+# :picked up the ring: along with other jewels and pearls.:
+# :picked up the ring:
          </code></pre>
         </section>
 
-
-        <!-- Example of nested vertical slides -->
         <section>
-          <h2>Choice of Language:</h2>
-          <img src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png"/>
-        </section>
-
-        <section>
-          <h2>Example: Finding whether a string is a phone number</h2>
-          <pre><code data-trim>
-    def isPhoneNumber(phoneNum):
-    # If the length of the phonenumber is not 12, then invalidate
-    if len(phoneNum) != 12:
-        return False
-
-    # Check if the area code is comprised of numbers / numeric
-    for i in range(0, 3):
-        if not phoneNum[i].isdecimal():
-            return False
-
-    # Check if next character is hyphen / '-'
-    if phoneNum[3] != '-':
-        return False
-
-    # Repeat the process
-    for i in range(4, 7):
-        if not phoneNum[i].isdecimal():
-            return False
-
-    if phoneNum[7] != '-':
-        return False
-    
-    for i in range(8, 12):
-        if not phoneNum[i].isdecimal():
-            return False
-    
-    return True 
-          </code></pre>
-          
-        </section>
-
-        <section>
-          <h2>Example: Finding whether a string is a phone number(Cntd..)</h2>
-          <pre><code data-trim>
-print('123-456-7890 is a phone number:')
-print(isPhoneNumber('123-456-7890'))
-print('Random Phonenumber is a phone number:')
-print(isPhoneNumber('Random Phonenumber'))
-
-# OUTPUT:
-123-456-7890 is a phone number:
-True
-Random Phonenumber is a phone number:
-False
-          </code></pre>
-          
-        </section>
-
-        <section>
-          <h3>But what if??</h3>
-          <h4>The numbers are of form: </h4>
-          <h2>123.456.7890 or (123)456-7890??</h2>
-        </section>
-
-        <section>
-          <h2>Easier way: Use Regex</h2>
-          <h4>A simple pattern below can solve the base case:</h4>
-          <pre><code>       \d\d\d-\d\d\d\d-\d\d\d OR IN SHORT \d{3}-\d{4}-\d{3}        </code></pre>
-        </section>
-
-         <section>
-          <section id="fragments">
-            <h2>4 Steps</h2>
-            <ol>
-              <li class="fragment">Importing the library</li>
-              <li class="fragment">Use the <code>compile()</code> function to compile the pattern</li>
-              <li class="fragment">Using the <code>search()</code> function on your given text</li>
-              <li class="fragment">Grouping to retrieve the results</li>
-            </ol>
-          </section>
+          <h2>Flags</h2>
           <section>
-            <h2>Let's do this in action!!</h2>
-          </section>
-        </section>
-
-        <section>
-          <h3>In action</h3>
-         <pre><code>
+          <pre><code data-trim>
 #import library
 import re
 
 # Use the compile() function to declare your pattern
-phoneNumRegex = re.compile(r'\d\d\d-\d\d\d\d-\d\d\d')
-
+batRegex = re.compile(r'batman', re.IGNORECASE)
 # Using search() to find the string pattern that matches
-mo = phoneNumRegex.search('There are tons of numbers. One of them is 123-456-7890. That is one of the simplest among them all')
+mo = batRegex.search('The central hero for Gotham is BAtMaN')
+print(mo.group())
 
+# You can also use the shorthand re.I
+batRegex1 = re.compile(r'batman', re.I)
+# Shorthand is re.I
+mo = batRegex1.search('He is also called the BATMAN')
 # Use group() to collect the results
-print('The phone number in the given text is: ' + mo.group())
-
-# OUTPUT:
-# The phone number in the given text is: 123-456-7890
-          </code></pre>
-        </section>
-
-        <section>
-          <section>
-          <h2>Pipe Symbol |</h2>
-          <p> Used for either-or </p>
-          <pre><code>
-import re
-csRegex = re.compile(r'CS|Computer Science|Comp Sci')
-mo1 = csRegex.search('Hello!! Welcome to the Computer Science club at UC Davis.')
-print(mo1.group())
-mo1 = csRegex.search('It is also known as the CS club. I look forward for this exciting year!!')
-print(mo1.group())
+print(mo.group())
 
 # OUTPUT
-# Computer Science
-# CS
-          </code></pre>
+# BAtMaN
+# BATMAN
+         </code></pre>
         </section>
+        
         <section>
-          <h2>Which vehicle is Batman using today???</h2>
-          <pre><code>
-import re
-batRegex = re.compile(r'Bat(mobile|copter|vehicle|marine)')
-mo1 = batRegex.search('Today, the great superhero of Gotham is going to use the Batcopter to capture the Joker.')
-print(mo1.group())
-
-# OUTPUT
-# Batcopter
-
-        </code></pre>
-        </section>
-        </section>
-
-        <section>
-          <h2>SUPERSTAR (*)</h2>
-          <h6>Zero or More Times</h6>
-          <pre><code>
-import re
-woRegex = re.compile(r'Super(wo)*man')
-mo1 = woRegex.search('The citizens of Metropolis were dazzled at the appearance of Superwoman instead of the main hero.')
-print(mo1.group())
-mo1 = woRegex.search('Turns out that Superman was busy saving another planet that day.')
-print(mo1.group())
-
-# OUTPUT
-# Superwoman
-# Superman
-          </code></pre>
-        </section>
-
-        <section>
-          <h2>Positivity is a huge plus(+)</h2>
-          <h6>Try to laugh one or more times during the day</h6>
-          <pre><code>
-import re
-haRegex = re.compile(r'(ha)+')
-mo1 = haRegex.search('One of my friends shared an amazing joke and I said hahaha')
-print(mo1.group())
-mo1 = haRegex.search('Another friend of mine heard the same joke and said haha')
-print(mo1.group())
-
-# OUTPUT:
-# hahaha
-# haha
-          </code></pre>
-        </section>
-
-        <section>
-          <section>
-          <h2>Rambling{...}</h2>
-          <h6>We always have dat one friend who keeps rambling</h6>
-          <h6>Repeating words again and again</h6>
-          <pre><code>
-import re
-blaRegex = re.compile(r'(Bla){3}')
-mo1 = blaRegex.search('I thought my friend was annoying cuz he kept on rambling BlaBlaBla')
-print(mo1.group())
-
-# OUTPUT:
-# BlaBlaBla
-          </code></pre>
-
-          </section>
-
-          <section>
-            <h2>The Rambling continues...</h2>
-            <h6>Just when I thought it couldn't get any worse...</h6>
-            <pre><code>
-import re
-haRegex = re.compile(r'(Bla){3,5}')
-mo1 = haRegex.search('I thought my friend was annoying cuz he kept on rambling BlaBlaBla')
-print(mo1.group())
-mo1 = haRegex.search('Until, I met this one other person who rambled FODAYZZ BlaBlaBlaBlaBla')
-print(mo1.group())
-
-# OUTPUT:
-# BlaBlaBla
-# BlaBlaBlaBlaBla
-            </code></pre>
-
-          </section>
-
-          <section>
-            <h2>Atleast say something...</h2>
-            <pre><code>
-import re
-haRegex = re.compile(r'(Bla){3,}')
-mo1 = haRegex.search('On the other hand, I do not talk much. So I decided to say BlaBlaBlaBla')
-print(mo1.group())
-
-# OUTPUT:
-# BlaBlaBlaBla
-            </code></pre>
-
-          </section>
-
-        </section>
-
-      <section>
-         <section>
-          <h2>Character Classes</h2>
+          <h2>Other flags...</h2>
           <table>
             <thead>
               <tr>
-                <th>Symbol</th>
+                <th>Flag</th>
                 <th>Significance</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>\d</td>
-                <td>Any numeric digit from 0 to 9.</td>
+                <td>re.DOTALL/re.S</td>
+                <td>Make the '.' special character match any character at all, including a newline;</td>
               </tr>
               <tr>
-                <td>\D</td>
-                <td>Any character that is not a numeric digit from 0 to 9.</td>
+                <td>re.VERBOSE/re.X</td>
+                <td>Can neatly split the regular expressions into multiline parts.</td>
               </tr>
               <tr>
-                <td>\w</td>
-                <td>Any letter, numeric digit, or the underscore character. ("word" characters)</td>
-              </tr>
-              <tr>
-                <td>\W</td>
-                <td>Any character that is not a letter, numeric digit, or the underscore character.</td>
-              </tr>
-              <tr>
-                <td>\s</td>
-                <td>Any space, tab, or newline character. ("space" characters)</td>
-              </tr>
-              <tr>
-                <td>\S</td>
-                <td>Any character that is not a space, tab, or newline ("space" characters)</td>
+                <td>etc...</td>
+                <td>Check out the docs for other ones.</td>
               </tr>
             </tbody>
           </table>
+
         </section>
+
+        <section>
+          <h2>Be clear in what you say</h2>
+          <pre><code data-trim>
+phoneRegex = re.compile(r'''(
+    (\d{3}|\(\d{3}\))?                # area code
+    (\s|-|\.)?                        # separator
+    (\d{3})                           # first 3 digits
+    (\s|-|\.)                         # separator
+    (\d{4})                           # last 4 digits
+    (\s*(ext|x|ext.)\s*(\d{2,5}))?    # extension
+    )''', re.VERBOSE)
+         </code></pre>
+        </section>
+
+        </section>
+
+        <section>
+          <h3>Substitution</h3>
+          <section>
+          <pre><code data-trim>
+#import library
+import re
+
+# Use the compile() function to declare your pattern
+officerRegex = re.compile(r'Officer \w+')
+print(officerRegex.sub('XYZ', 'Officer Bob gave a secret message to Officer Alice'))
+
+# OUTPUT
+# XYZ gave a secret message to XYZ
+         </code></pre>
+          </section>
 
           <section>
-            <h2>Example...</h2>
-            <h6>One CS Club to Rule em' all...</h6>
-            <pre><code>
+            <h3>Atleast the first letter...???</h3>
+            <pre><code data-trim>
+##import library
 import re
-csClubRegex = re.compile(r'\d+\s\w+')
-moList = csClubRegex.findall('11 amazing officers, 1 club, 10 goals, 100 people')
-print(moList)
 
-# OUTPUT:
-# ['11 amazing', '1 club', '10 goals', '100 people']
-            </code></pre>
-          </section>
+# Use the compile() function to declare your pattern
+officerRegex = re.compile(r'Officer (\w)\w*')
+print(officerRegex.sub(r'\1****', 'Officer Bob gave a secret message to Officer Alice'))
+
+# OUTPUT
+# B**** gave a secret message to A****
+         </code></pre>
+         </section>
         </section>
 
         <section>
-          <h2>Always remember that you have the power to create</h2>
-          <pre><code>
+          <h2>Splitting</h2>
+          <h4>Use a delimeter to seperate</h4>
+          <pre><code data-trim>
+#import library
 import re
-csClubRegex = re.compile(r'\b[ap]\w+\b')
-moList = csClubRegex.findall('11 amazing officers, 1 club, 10 goals, 100 people')
-print(moList)
 
-# OUTPUT:
-# ['amazing', 'people']
-            </code></pre>
+# Use the compile() function to declare your pattern
+print(re.split(r'\d+', 'This12Is34A45Random67Text11Between90Numbers'))
+
+# OUTPUT
+# ['This', 'Is', 'A', 'Random', 'Text', 'Between', 'Numbers']
+         </code></pre>
         </section>
 
         <section>
-          <h2>There is no animal more wild than a cat</h2>
-          <h6>The Amazing Wildcard Character (.)</h6>
-          <pre><code>
-import re
-wildRegex = re.compile(r'\b.at\b')
-moList = wildRegex.findall('The cat in the hat sat on the flat mat and deserved a pat')
-print(moList)
+          <h2>Other useful functions....</h2>
 
-# OUTPUT:
-# ['cat', 'hat', 'sat', 'mat', 'pat']
-            </code></pre>
+          <ul>
+            <li><code>findIter()</code></li>
+            <li><code>groupDict()</code></li>
+            <li><code>start()</code></li>
+            <li><code>end()</code></li>
+            <li><code>span()</code></li>
+            <li><code>many more...</code></li>
+          </ul>
         </section>
 
         <section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
           <h2>Assessment (Self-Test) Questions</h2>
           <ol>
-            <li>What function creates <code>Regex</code> Objects??</li>
-            <li>Why are raw strings used when dealing with <code>Regex</code> Objects?</li>
-            <li>What does <code>search()</code> return?</li>
-            <li>How do you get the actual strings that match the pattern from a <code>Match</code> object?</li>
-            <li>What does | signify in regexs?</li>
+            <li>In the regex created from <code>r'(\d\d\d)-(\d\d\d-\d\d\d\d)'</code>, what does group 0 cover? Group 1? Group 2?</li>
+            <li>The <code>findall()</code> method returns a list of strings or a list of tuples of strings. What makes it return one or the other?</li>
+            <li>What two things does the ? character signify in regular expressions?</li>
+            <li>How do you make a regular expression case-insensitive?</li>
+            <li>What does the . character normally match? What does it match if <code>re.DOTALL</code> is passed as the second argument to <code>re.compile()</code>?</li>
           </ol>
         </section>
 
         <section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
           <h2>Qtns continued...</h2>
           <ol start="6">
-            <li>What is the difference between the + and * characters in regular expressions?</li>
-            <li>What is the difference between {3} and {3,5} in regular expressions?</li>
-            <li>What do <code>\d,\w,\s</code> represent in regex??</li>
-            <li>What does the . character normally match?</li>
-            <li>Symbols such as {}.*? have special meaning in the world of Regexes. What would you do if you want to capture those symbol literals?</li>
+            <li>What does passing <code>re.VERBOSE</code> as the second argument to <code>re.compile()</code> allow you to do?</li>
+            <li>What method allows to find the positions where the regex found the pattern within text?</li>
+            <li>If <code>numRegex = re.compile(r'\d+')</code>, what will <code>numRegex.sub('X', '12 drummers, 11 pipers, five rings, 3 hens')</code> return?</li>
           </ol>
         </section>
 

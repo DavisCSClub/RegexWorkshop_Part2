@@ -1173,3 +1173,12 @@ body {
 
 .zoomed .reveal .roll span:after {
   visibility: hidden; }
+
+/*
+CUSTOM SIZE FOR CODE
+*/
+.reveal pre code{
+  width: 130%;
+  margin-left: -15% !important;
+  height: 170%;
+}
