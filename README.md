@@ -8,4 +8,4 @@ About the files
 
 The solutions for the exercise file will be discussed during the presentation. If you are not able to make it to the presentation and/or want the solution file, please contact me.
 
-Last Modified on 1st Aug, 2015 by Arjun B.
+Last Modified on 2st Aug, 2015 by Arjun B.
